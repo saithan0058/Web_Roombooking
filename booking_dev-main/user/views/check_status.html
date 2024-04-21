@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CheckStatus</title>
+    <link rel="stylesheet" href="/public/css/check_status.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" type="text/css" href="/public/css/bootstrap.min.css">
+    <script src="/public/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+</head>
+
+<body style="background-color: #BDDFFF;">
+    <nav class="navbar navbar-expand-sm navbar-dark p-4" style="background-color: #02083b;">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="/user/landing" style="font-size: 20px;">Booking group</a>
+            </li>
+        </ul>
+        <div class="navbar-nav ms-auto">
+            <button id="Profile"
+                class="px-4 nav-button nav-eff btn btn-dark border text-white border border-primary rounded-pill">Profile</button>
+        </div>
+        <div class="navbar-nav">
+            <a href="/logout"
+                class="px-4 nav-button nav-eff btn btn-dark border text-white border border-primary rounded-pill">Logout</a>
+        </div>
+    </nav>
+
+    <div class="ven1"></div>
+    <h1 class="text-center">Check status</h1>
+    <div class="ven2"></div>
+    <center>
+        <table id="statusTable" class="text-center">
+            <tr id="Head">
+                <th>Build / Room number</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Reason</th>
+                <th>Status</th>
+                <th>Apporver and rejecter</th>
+                <th>Cancel</th>
+            </tr>
+        </table>
+    </center>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch("/user/status/")
+                .then(response => response.json())
+                .then(data => {
+                    const statusTable = document.getElementById("statusTable");
+
+                    data.forEach(booking => {
+                        const date = new Date(booking.date);
+                        const row = statusTable.insertRow();
+                        const cellRoomNumber = row.insertCell(0);
+                        const cellDate = row.insertCell(1);
+                        const cellTime = row.insertCell(2);
+                        const cellReason = row.insertCell(3);
+                        const cellStatus = row.insertCell(4);
+                        const cellApprove = row.insertCell(5);
+                        const cellCancel = row.insertCell(6);
+
+                        cellRoomNumber.textContent = `${booking.room_name} ${booking.room_number}`;
+                        cellDate.textContent = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+                        cellTime.textContent = booking.time;
+                        cellReason.textContent = `${booking.reason}`;
+                        if(booking.status_request == 'Approve'){
+                            cellStatus.innerHTML = `${booking.status_request}`;
+                        }else if (booking.status_request == 'Reject'){
+                            cellStatus.innerHTML = `${booking.status_request}<br>Description :${booking.description}`;
+                        }else{
+                            cellStatus.innerHTML = `${booking.status_request}`;
+                        }
+                        // cellStatus.innerHTML = `${booking.status_request}<br>Description :${booking.description}`;
+                        cellApprove.textContent = `${booking.approve_name}`;
+
+                        // Conditionally show the "Cancel" button if status is "pending"
+                        if (booking.status_request.toLowerCase() === 'pending') {
+                            cellCancel.innerHTML = `<button class="btnCancel btn btn-danger" onclick="cancelBooking(${booking.booking_id}, ${row.rowIndex})">Cancel</button>`;
+                            // Change text color for "pending" status
+                            cellStatus.style.color = '#4CAF50'; // สีเขว
+                        }
+                        // Set background color for "reject" status
+                        else if (booking.status_request.toLowerCase() === 'reject') {
+                            cellStatus.style.color = '#FF0000'; // สีแดง
+                        }else{
+                            cellStatus.style.color = '#4CAF50'; // สีเขว
+                        }
+                    });
+                })
+                .catch(error => console.error("Error fetching data:", error));
+
+            window.cancelBooking = function (bookingId, rowIndex) {
+                fetch(`/user/cancel_booking/${bookingId}`, { method: 'DELETE' })
+                    .then(response => {
+                        if (response.ok) {
+                            // ทำการลบ row ที่มี bookingId ออกจากตาราง
+                            document.getElementById("statusTable").deleteRow(rowIndex);
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Cancel Success!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(function () {
+                                // Reload the page after the alert is closed
+                                location.reload();
+                            });
+                        } else {
+                            console.error('Error cancel booking:', response.statusText);
+                        }
+                    })
+                    .catch(error => console.error('Error cancel booking:', error));
+            }
+        });
+
+        document.getElementById('Profile').addEventListener('click', function () {
+            window.location.href = '/user/profile';
+        });
+        // document.getElementById('Logout').addEventListener('click', function () {
+        //     window.location.href = '/';
+        // });
+    </script>
+</body>
+
+</html>

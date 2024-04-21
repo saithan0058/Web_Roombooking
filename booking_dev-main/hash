@@ -1,0 +1,11 @@
+//Create Hashed Pass
+// app.get("/password/:pass", function (req, res) {
+//   const password = req.params.pass;
+//   bcrypt.hash(password, 10, function (err, hash) {
+//     //parameter + capacity + function
+//     if (err) {
+//       return res.status(500).send("Hashing error");
+//     }
+//     res.send(hash);
+//   });
+// });

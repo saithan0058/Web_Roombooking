@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="/public/css/login.css">
+    <link rel="stylesheet" href="/public/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="/public/css/landing.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+
+    <body>
+        <div class="login-container">
+            <div class="split left">
+            </div>
+            <div class="split right">
+                <form id="formLogin">
+                    <h1 class="mb-4">Login</h1>
+                    <div class="input-container form-floating">
+                        <input type="email" id="email" name="txtEmail" class="form-control" placeholder="Email Address"
+                            required>
+                        <label for="email">Email Address</label>
+                    </div>
+                    <div class="input-container form-floating">
+                        <input type="password" id="password" name="txtPassword" class="form-control mt-3"
+                            placeholder="Password" required>
+                        <label for="password">Password</label>
+                    </div>
+                    <button type="submit" class="btn btn-dark mt-2">Login</button>
+                    <p class="text-center mt-4">Don't have an account? You can <a href="/user/register">Register</a></p>
+                </form>
+            </div>
+        </div>
+    </body>
+    <script>
+        const formLogin = document.querySelector('#formLogin');
+        //When click submit form
+        formLogin.onsubmit = function (e) {
+            e.preventDefault();
+            const email = formLogin['txtEmail'].value;
+            const password = formLogin['txtPassword'].value;
+
+            const options = {
+                method: 'POST',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    "email": email, "password":password
+                }),
+            }
+            fetch('/login', options)
+                .then(function (response) {
+                    if (response.ok) {
+                        return response.text();
+                    }
+                    throw Error("Wrong Username Or Password")
+                }).then(function (data) {
+                    location.replace(data);
+                })
+                .catch(function (err) {
+                    Swal.fire({
+                        "icon": "error",
+                        "title": err.message
+                    })
+
+                });
+        }
+    </script>
+</body>
+
+</html>

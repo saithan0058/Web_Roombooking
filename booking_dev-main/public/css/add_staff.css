@@ -1,0 +1,61 @@
+.btn{
+    border: 1px solid blue;
+    border-radius: 20px;
+}
+img{
+    width: 1980px;
+    height: 138px;
+}
+#back{
+    background-color: #000320;
+}
+#top{
+    background-color: black;
+}
+#manageBG{
+    border-radius: 45px;
+}
+#room{
+    border: none;
+    text-size-adjust: 30px;
+}
+.try{
+    display: flex ;
+    flex-direction: row
+}
+.nav-button {
+    transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.nav-button:hover {
+    box-shadow: 0 0.8rem 2rem rgba(0, 0, 0, 0.3);
+    transform: translate3d(0, -4px, 0);
+    background-color: rgb(44, 44, 196);
+}
+.nav-link {
+    --s: 0.1em;
+    --c: #2c4bff; 
+  
+    color: rgba(255, 249, 249, 0.885)d900;
+    padding-bottom: var(--s);
+    background: 
+      linear-gradient(90deg,var(--c) 50%,#000 0) calc(100% - var(--_p,0%))/200% 100%,
+      linear-gradient(var(--c) 0 0) 0% 100%/var(--_p,0%) var(--s) no-repeat;
+    -webkit-background-clip: text,padding-box;
+            background-clip: text,padding-box;
+    transition: 0.5s;
+  }
+  .nav-link:hover {--_p: 100%}
+  
+  
+  
+  .nav-link {
+    font-family: system-ui, sans-serif;
+    font-size: 5rem;
+    cursor: pointer;
+  }
+  
+  
+  .nav-button {
+      margin-right: 40px;
+  }

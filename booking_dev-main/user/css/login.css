@@ -1,0 +1,95 @@
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+}
+
+.login-container {
+    display: flex;
+    height: 100vh;
+}
+
+.split {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.left {
+    background-image: url('/User/asset/HD-wallpaper-blue-amoled-abstract-blue-dark\ 1.png'); /* Set your image path here */
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+}
+
+.right {
+    background-color: #fff;
+}
+
+.centered {
+    text-align: center;
+}
+
+form {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.input-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+label {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: #777;
+    transition: 0.2s;
+}
+
+input:focus + label {
+    top: -12px;
+    font-size: 12px;
+    color: #333;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #000000;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#username{
+    width: 25rem;
+}
+.nav-button {
+    margin-right: 40px;
+}

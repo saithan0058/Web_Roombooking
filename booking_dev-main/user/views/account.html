@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/public/css/bootstrap.min.css">
+    <script src="/public/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/public/css/account.css">
+    <title>Profile</title>
+</head>
+
+<body style="background-color: #000320;">
+    <div>
+        <!--navbar-->
+        <nav class="navbar navbar-expand-sm navbar-dark p-4" style="background-color: #02083b;">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/user/landing" style="font-size: 20px;">Booking group</a>
+                </li>
+            </ul>
+            <div class="navbar-nav ms-auto">
+                <a href="/logout"
+                    class="px-4 nav-button btn btn-dark border text-white border border-primary rounded-pill">Logout</a>
+            </div>
+        </nav>
+
+
+        <!--content-->
+        <div class="container">
+            <h1 class="text-center text-white pt-5">Profile</h1>
+            <div class=" card p-5 m-5">
+                <div class="text-center p-3">
+                    <img src="/public/assets/pngegg.png" alt="home" width="100px" height="100">
+                </div>
+                <label for="email">Email : </label>
+                <input type="text" class="form-control mb-4" placeholder="Email :" id="email" disabled>
+                <label for="name">Full Name : </label>
+                <input type="text" class="form-control mb-4" placeholder="Name :" id="name" disabled>
+                <label for="stID">Student Id : </label>
+                <input type="number" class="form-control mb-4" placeholder="Student ID :" id="stID" disabled>
+                <label for="PhoneNum">Phone : </label>
+                <input type="number" class="form-control" placeholder="Phone number :" id="PhoneNum" disabled>
+            </div>
+        </div>
+        <!-- footer -->
+
+
+    </div>
+    <div>
+        <footer class="bg-light text-center text-lg-start" style="position: absolute;">
+            <!-- Copyright -->
+            <div class="text-center p-3 text-white" style="background-color: #02083b;">
+                © 2023 Copyright:
+                <a class="text-white" href="https://www.google.com/">sunshine.com</a>
+            </div>
+            <!-- Copyright -->
+        </footer>
+    </div>
+    <script>
+        // get user info
+        getProfile();
+
+        //---------------GET User-----------------
+        async function getProfile() {
+            try {
+                const response = await fetch('/user-info');
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log("Receive Data = ", data);
+                    document.getElementById("email").value = data.email;
+                    document.getElementById("name").value = data.fName_sName;
+                    document.getElementById("stID").value = data.student_id;
+                    document.getElementById("PhoneNum").value = data.phone_number;
+                } else {
+                    throw Error('Connection ERROR')
+                }
+            } catch (error) {
+                alert(error.message);
+            }
+        }
+    </script>
+</body>
+
+</html>

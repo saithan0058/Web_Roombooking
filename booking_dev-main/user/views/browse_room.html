@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Room</title>
+    <link rel="stylesheet" href="/public/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../../public/css/table.css">
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-sm navbar-dark p-4" style="background-color: #02083b;">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="/user/landing" style="font-size: 20px;">Booking group</a>
+            </li>
+        </ul>
+        <div class="navbar-nav ms-auto">
+            <button id="Profile"
+                class="px-4 nav-button btn btn-dark border text-white border border-primary rounded-pill">Profile</button>
+        </div>
+        <div class="navbar-nav">
+            <a href="/logout"
+                class="px-4 nav-button btn btn-dark border text-white border border-primary rounded-pill">Logout</a>
+        </div>
+    </nav>
+
+    <div class="" id="bodym">
+        <br>
+        <nav class="container-fluid">
+            <div class="st">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-search" viewBox="0 0 16 16">
+                            <path
+                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                        </svg>
+                    </span>
+                    <input id="searchID" type="text" class="form-control" placeholder="Search Room">
+                    <button class="btn btn-primary" type="button" style="background-color: #02083b;"
+                        onclick="searchFunction()">Search</button>
+                </div>
+                <div>
+
+                    <!-- ----------------------Day------------------- -->
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="background-color: #02083b;" id="day">9 November 2023</th>
+                            </tr>
+                        </thead>
+                    </table>
+
+                    <br>
+
+                    <!-- ----------------Room & floor-------------- -->
+                    <div id="buildingData" class="container"></div>
+
+                    <script>
+                        // Fetch room data from the server
+                        fetch('/user/room-data')
+                            .then(response => response.json())
+                            .then(data => {
+                                // Call function to generate room tables using the fetched data
+                                generateRoomTables(data);
+                            })
+                            .catch(error => console.error('Error fetching room data:', error));
+
+                        function searchFunction() {
+                            var input, filter, table, rows, cells, i, j, txtValue;
+                            input = document.getElementById("searchID");
+                            filter = input.value.toUpperCase();
+                            table = document.getElementById("buildingData"); // Update this ID to match your container
+                            rows = table.getElementsByTagName("tr"); // Get all rows in the table
+
+                            // Loop through all rows
+                            for (i = 0; i < rows.length; i++) {
+                                cells = rows[i].getElementsByTagName("td"); // Get all cells in the current row
+                                // Loop through all cells in the current row
+                                for (j = 0; j < cells.length; j++) {
+                                    txtValue = cells[j].textContent || cells[j].innerText;
+                                    // Check if the current cell's text contains the search filter
+                                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                                        rows[i].style.display = ""; // Show the entire row
+                                        break; // Break out of the inner loop, since we found a match
+                                    } else {
+                                        rows[i].style.display = "none"; // Hide the entire row
+                                    }
+                                }
+                            }
+                        }
+
+                        // Function to generate room tables
+                        function generateRoomTables(roomsData) {
+                            const container = document.getElementById("buildingData");
+
+                            // Get name building
+                            const buildingNames = Array.from(new Set(roomsData.map(room => room.room_name)));
+
+                            // Generate buildings 
+                            for (const buildingName of buildingNames) {
+                                const buildingRooms = roomsData.filter(room => room.room_name === buildingName);
+                                const building = { name: buildingName, floors: [] };
+
+                                // Get name floor
+                                const floorNames = Array.from(new Set(buildingRooms.map(room => room.floor_name)));
+
+                                // Generate floors 
+                                for (const floorName of floorNames) {
+                                    const floorRooms = buildingRooms.filter(room => room.floor_name === floorName);
+                                    const floor = { name: floorName, rooms: floorRooms };
+                                    building.floors.push(floor);
+                                }
+
+                                // Call function to create room tables for the current building
+                                createBuildingTables(container, building);
+                            }
+                        }
+
+                        // Function to create room tables for a building
+                        function createBuildingTables(container, building) {
+                            const buildingTable = document.createElement("table");
+                            buildingTable.innerHTML = `
+                            <thead>
+                              <tr>
+                                <th id="room" style="background-color: #02083b; color: white;" >Build ${building.name}</th>
+                              </tr>
+                            </thead>
+                          `;
+                            container.appendChild(buildingTable);
+
+                            for (const floor of building.floors) {
+                                const mainTable = document.createElement("table");
+                                mainTable.innerHTML = `
+                              <thead>
+                                <tr>
+                                  <th>Room number \\ Time</th>
+                                  <th>8.00 - 10.00</th>
+                                  <th>10.00 - 12.00</th>
+                                  <th>13.00 - 15.00</th>
+                                  <th>15.00 - 17.00</th>
+                                </tr>
+                              </thead>
+                            `;
+
+                                const tbody = document.createElement("tbody");
+                                const roomStatusMap = {}; // Object to store status for each room
+                                var arrayID = []
+                                var i = -1;
+                                for (const room of floor.rooms) {
+                                    console.log(arrayID);
+                                    const schedule = room.schedule || ["Free", "Free", "Free", "Free"];
+                                    if (arrayID.length == 0) {
+                                        console.log("New" + room.room_id);
+                                        arrayID.push(room.room_id)
+                                        i++;
+                                        const roomRow = document.createElement("tr");
+                                        // if(parseInt(roomRow.id) == room.room_id){
+                                        //     console.log("SCIOR");
+                                        // }
+                                        roomRow.setAttribute("id", room.room_id);
+
+                                        // Use room_id as a key in the status map
+                                        if (!roomStatusMap[room.room_id] && room.status_request) {
+                                            roomStatusMap[room.room_id] = room.status_request;
+                                        }
+
+
+                                        const statusText = room.room_status === "Disable" ? "Disable" : room.status_request === "pending" ? "Pending" : (room.status_request === "Reject" ? "Free" : "InUse");
+
+                                        // const statusText2 = room.status_request === "reject" ? "Free" : "Free"
+                                        // console.log(typeof (room.room_id));
+                                        // console.log(typeof (roomRow.id));
+                                        function formatDate(date) {
+                                            return new Date(date).toLocaleDateString()
+                                        }
+                                        const date = new Date();
+                                        const dateCurrent = formatDate(date);
+                                        console.log(room.room_status);
+                                        var setRoom = ""
+                                        if(room.room_status === "Disable"){
+                                        setRoom += `<td>${building.name} ${room.room_number} <br>Facilities: ${room.facilities} | People Capacity: ${room.people}</td>`
+                                        setRoom += `<td class="free-cell disable-cell" data-start-time="08:00-10:00" data-room-id="${room.room_id}" id = "${room.room_id}T1">Disable</td>`
+                                        setRoom += `<td class="free-cell disable-cell" data-start-time="10:00-12:00" data-room-id="${room.room_id}" id = "${room.room_id}T2" >Disable</td>`
+                                        setRoom += `<td class="free-cell disable-cell" data-start-time="13:00-15:00" data-room-id="${room.room_id}" id = "${room.room_id}T3" >Disable</td>`
+                                        setRoom += `<td class="free-cell disable-cell" data-start-time="15:00-17:00" data-room-id="${room.room_id}" id = "${room.room_id}T4" >Disable</td>`
+                                        }else{
+                                        setRoom += `<td>${building.name} ${room.room_number} <br>Facilities: ${room.facilities} | People Capacity: ${room.people}</td>`
+                                        setRoom += `<td class="free-cell" data-start-time="08:00-10:00" data-room-id="${room.room_id}" id = "${room.room_id}T1">${formatDate(room.date) == dateCurrent ? room.time == '08:00-10:00' ? statusText : "Free" : "Free" }</td>`
+                                        setRoom += `<td class="free-cell" data-start-time="10:00-12:00" data-room-id="${room.room_id}" id = "${room.room_id}T2" >${formatDate(room.date) == dateCurrent ? room.time == '10:00-12:00' ? statusText : "Free" : "Free"}</td>`
+                                        setRoom += `<td class="free-cell" data-start-time="13:00-15:00" data-room-id="${room.room_id}" id = "${room.room_id}T3" >${formatDate(room.date) == dateCurrent ? room.time == '13:00-15:00' ? statusText : "Free" : "Free"}</td>`
+                                        setRoom += `<td class="free-cell" data-start-time="15:00-17:00" data-room-id="${room.room_id}" id = "${room.room_id}T4" >${formatDate(room.date) == dateCurrent ? room.time == '15:00-17:00' ? statusText : "Free" : "Free"}</td>`
+                                        }
+                                        
+                                        roomRow.innerHTML = setRoom;
+                                        //     <td>${building.name} ${room.room_number} <br>Facilities: ${room.facilities} | People Capacity: ${room.people}</td>
+                                        //     <td class="free-cell" data-start-time="08:00-10:00" data-room-id="${room.room_id}" id = "${room.room_id}T1">${room.time == '08:00-10:00' ? statusText : "Free"}</td>
+                                        //     <td class="free-cell" data-start-time="10:00-12:00" data-room-id="${room.room_id}" id = "${room.room_id}T2" >${room.time == '10:00-12:00' ? statusText : "Free"}</td>
+                                        //     <td class="free-cell" data-start-time="13:00-15:00" data-room-id="${room.room_id}" id = "${room.room_id}T3" >${room.time == '13:00-15:00' ? statusText : "Free"}</td>
+                                        //     <td class="free-cell" data-start-time="15:00-17:00" data-room-id="${room.room_id}" id = "${room.room_id}T4" >${room.time == '15:00-17:00' ? statusText : "Free"}</td>
+                                        //  `;
+
+                                        tbody.appendChild(roomRow);
+                                        mainTable.appendChild(tbody);
+                                        container.appendChild(mainTable);
+
+                                    }
+
+                                    else if (arrayID[i] == room.room_id) {
+                                        console.log("Skip" + room.room_id);
+                                        const t1 = document.getElementById(`${room.room_id}T1`);
+                                        const t2 = document.getElementById(`${room.room_id}T2`);
+                                        const t3 = document.getElementById(`${room.room_id}T3`);
+                                        const t4 = document.getElementById(`${room.room_id}T4`);
+                                        const date = new Date();
+                                        const dateCurrent = formatDate(date);
+                                        const statusText = room.room_status === "Disable" ? "Disable" : formatDate(room.date) == dateCurrent ? room.status_request === "pending" ? "Pending" : (room.status_request === "Reject" ? "Free" : "InUse") : "Free";
+                                        if (room.time == "08:00-10:00") {
+                                            t1.innerText = statusText
+                                        } else if (room.time == "10:00-12:00") {
+                                            t2.innerText = statusText
+                                        } else if (room.time == "13:00-15:00") {
+                                            t3.innerText = statusText
+                                        } else if (room.time == "15:00-17:00") {
+                                            t4.innerText = statusText
+                                        }
+                                    } else {
+                                        console.log("New" + room.room_id);
+
+                                        arrayID.push(room.room_id)
+                                        i++;
+                                        const roomRow = document.createElement("tr");
+                                        // if(parseInt(roomRow.id) == room.room_id){
+                                        //     console.log("SCIOR");
+                                        // }
+                                        roomRow.setAttribute("id", room.room_id);
+
+                                        // Use room_id as a key in the status map
+                                        if (!roomStatusMap[room.room_id] && room.status_request) {
+                                            roomStatusMap[room.room_id] = room.status_request;
+                                        }
+
+
+                                        const statusText = room.room_status === "Disable" ? "Disable" : room.status_request === "pending" ? "Pending" : (room.status_request === "Reject" ? "Free" : "InUse");
+
+                                        // const statusText2 = room.status_request === "reject" ? "Free" : "Free"
+                                        // console.log(typeof (room.room_id));
+                                        // console.log(typeof (roomRow.id));
+                                        function formatDate(date) {
+                                            return new Date(date).toLocaleDateString()
+                                        }
+                                        const date = new Date();
+                                        const dateCurrent = formatDate(date);
+                                        var setRoom = ""
+                                        if(room.room_status === "Disable"){
+                                        setRoom += `<td>${building.name} ${room.room_number} <br>Facilities: ${room.facilities} | People Capacity: ${room.people}</td>`
+                                        setRoom += `<td class="free-cell disable-cell" data-start-time="08:00-10:00" data-room-id="${room.room_id}" id = "${room.room_id}T1">Disable</td>`
+                                        setRoom += `<td class="free-cell disable-cell" data-start-time="10:00-12:00" data-room-id="${room.room_id}" id = "${room.room_id}T2" >Disable</td>`
+                                        setRoom += `<td class="free-cell disable-cell" data-start-time="13:00-15:00" data-room-id="${room.room_id}" id = "${room.room_id}T3" >Disable</td>`
+                                        setRoom += `<td class="free-cell disable-cell" data-start-time="15:00-17:00" data-room-id="${room.room_id}" id = "${room.room_id}T4" >Disable</td>`
+                                        }else{
+                                        setRoom += `<td>${building.name} ${room.room_number} <br>Facilities: ${room.facilities} | People Capacity: ${room.people}</td>`
+                                        setRoom += `<td class="free-cell" data-start-time="08:00-10:00" data-room-id="${room.room_id}" id = "${room.room_id}T1">${formatDate(room.date) == dateCurrent ? room.time == '08:00-10:00' ? statusText : "Free" : "Free" }</td>`
+                                        setRoom += `<td class="free-cell" data-start-time="10:00-12:00" data-room-id="${room.room_id}" id = "${room.room_id}T2" >${formatDate(room.date) == dateCurrent ? room.time == '10:00-12:00' ? statusText : "Free" : "Free"}</td>`
+                                        setRoom += `<td class="free-cell" data-start-time="13:00-15:00" data-room-id="${room.room_id}" id = "${room.room_id}T3" >${formatDate(room.date) == dateCurrent ? room.time == '13:00-15:00' ? statusText : "Free" : "Free"}</td>`
+                                        setRoom += `<td class="free-cell" data-start-time="15:00-17:00" data-room-id="${room.room_id}" id = "${room.room_id}T4" >${formatDate(room.date) == dateCurrent ? room.time == '15:00-17:00' ? statusText : "Free" : "Free"}</td>`
+                                        }
+                                        roomRow.innerHTML = setRoom;
+                                        //     <td>${building.name} ${room.room_number} <br>Facilities: ${room.facilities} | People Capacity: ${room.people}</td>
+                                        //     <td class="free-cell" data-start-time="08:00-10:00" data-room-id="${room.room_id}" id = "${room.room_id}T1">${room.time == '08:00-10:00' ? statusText : "Free"}</td>
+                                        //     <td class="free-cell" data-start-time="10:00-12:00" data-room-id="${room.room_id}" id = "${room.room_id}T2" >${room.time == '10:00-12:00' ? statusText : "Free"}</td>
+                                        //     <td class="free-cell" data-start-time="13:00-15:00" data-room-id="${room.room_id}" id = "${room.room_id}T3" >${room.time == '13:00-15:00' ? statusText : "Free"}</td>
+                                        //     <td class="free-cell" data-start-time="15:00-17:00" data-room-id="${room.room_id}" id = "${room.room_id}T4" >${room.time == '15:00-17:00' ? statusText : "Free"}</td>
+                                        //  `;
+
+                                        tbody.appendChild(roomRow);
+                                        mainTable.appendChild(tbody);
+                                        container.appendChild(mainTable);
+
+                                    }
+
+                                }
+
+                            }
+                            const freeElements = container.querySelectorAll('.free-cell');
+                            freeElements.forEach(element => {
+                                element.addEventListener('click', (event) => {
+
+                                    const free = element.textContent;
+                                    console.log(free);
+                                    if (free.toLowerCase() == "pending") {
+                                        return
+                                    } else if (free.toLowerCase() == "inuse") {
+                                        return
+                                    }else if(free.toLowerCase() == "disable"){
+                                        return
+                                    }
+                                    const roomInfo = event.target.parentNode.querySelector('td:nth-child(1)').textContent.trim();
+                                    const roomName = roomInfo.split(' ')[1];
+                                    const time = event.target.getAttribute('data-start-time');
+                                    const roomId = event.target.parentNode.getAttribute('id');
+                                    console.log(roomInfo);
+                                    window.location.href = `/user/reserve_room?room_id=${roomId}&room_name=${roomName}&start_time=${time}`;
+                                });
+                            });
+                        }
+                        document.getElementById('day').innerHTML = new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
+
+
+                    </script>
+                </div>
+            </div>
+    </div>
+    <script>
+        document.getElementById('Profile').addEventListener('click', function () {
+            window.location.href = '/user/profile';
+        });
+        document.getElementById('Logout').addEventListener('click', function () {
+            window.location.href = '/';
+        });
+
+    </script>
+</body>
+
+</html>

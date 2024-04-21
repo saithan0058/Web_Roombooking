@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <link rel="stylesheet" type="text/css" href="/public/css/bootstrap.min.css">
+    <script src="/public/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="/public/css/landing_staff.css">
+    <link rel="stylesheet" href="/public/css/dashboard_staff.css">
+    <script src="https://codepen.io/jlalovi/details/bIyAr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.2.2/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+</head>
+
+<body>
+    <!--navbar-->
+    <nav class="navbar navbar-expand-sm navbar-dark p-4" style="background-color: #02083b;">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="#" style="font-size: 20px;">Booking group admin system</a>
+            </li>
+        </ul>
+        <div class="navbar-nav ms-auto">
+            <a href="/logout"
+                class="px-4 nav-button btn btn-dark border text-white border border-primary rounded-pill">Log out</a>
+        </div>
+        <!-- <div class="navbar-nav">
+            <button
+                class="px-4 nav-button btn btn-dark border text-white border border-primary rounded-pill">Login</button>
+        </div> -->
+    </nav>
+
+    <!--img background-->
+    <!-- Content -->
+    <div class="content-container text-center" >
+        <div class="left-content">
+            <b>
+                <h1 style="font-size: 50px ;">Meeting Room</h1>
+            </b>
+            <b><span style="font-size: 50px; color: rgb(31, 4, 166);">Booking</span></b><br>
+            <p style="color: rgb(31, 4, 166); display: inline; font-size: 25px;">Hello to us from the Booking group,</p>
+            <p style="display: inline; font-size: 25px;">the program is for meeting rooms in Mae Fah Luang with a
+                flexible and
+                easy-to-understand system. By using the developed system to create maximum benefits.</p><br>
+            <button class="custom-button1 mt-5 btn btn-dark border text-white border border-primary rounded-pill mx-2 btn-lg"
+                style="font-size: medium; height: 4rem;" id="room_br_st">Room Borrowing List</button>
+            <button class="custom-button2 mt-5 btn btn-dark border text-white border border-primary rounded-pill mx-2 btn-lg"
+                style="font-size: medium; height: 4rem;" id="request_room">Booking Request</button>
+            <button class="custom-button3 mt-5 btn btn-dark border text-white border border-primary rounded-pill mx-2 btn-lg"
+                style="font-size: medium; height: 4rem;" id="room_booking_history">Room Booking History</button>
+
+        </div>
+    </div>
+
+
+    <div class="container-flex" id="container-row3">
+        <div id="Chart1" style="height: 500px; width: 80%;"></div>
+        <div id="Chart2" style="height: 500px; width: 80%;"></div>
+       
+    </div>
+
+    <!--dashboard-->
+    <div class="mt-5" style="background-color: #000320;">
+        <h1 class="text-center text-white pt-5">Dashboard</h1>
+        <div class="dashboard-container">
+
+            <div class="card" style="border-radius: 2rem; background-color: #0A369D;">
+                <b>
+                    <div class="dashboard-header text-white">Number of rooms all time reserved</div>
+                </b>
+                <div class="text-white" id="FullReserved" style="font-size: 2rem;">Loading...</div>
+                <div style="text-align: right;">
+                    <img src="/public/assets/room_icon_dash.png" alt="" style="width: 10rem; height: 10rem;">
+                </div>
+            </div>
+
+            <div class="card" style="border-radius: 2rem; background-color: #4472CA;">
+                <b>
+                    <div class="dashboard-header text-white">List of rooms that are still available</div>
+                </b>
+                <div class="text-white" id="enable" style="font-size: 2rem; " >Loading...</div>
+                <div style="text-align: right;">
+                    <img src="/public/assets/meeting_dash.png" alt="" style="width: 15rem; height: 10rem;">
+                </div>
+            </div>
+
+            <div class="card" style="border-radius: 2rem; background-color: #5E7CE2;">
+                <b>
+                    <div class="dashboard-header">Disabled room</div>
+                </b>
+                <div class="text-dark" id="disable" style="font-size: 2rem;">Loading...</div>
+                <div style="text-align: right;">
+                    <img src="/public/assets/meeting-removebg-dash.png" alt="" style="width: 10rem; height: 10rem;">
+                </div>
+                <!-- <div class="small-picture"></div> -->
+            </div>
+
+            <div class="card" style="border-radius: 2rem; background-color: #92B4F4;">
+                <b>
+                    <div class="dashboard-header">All rooms We have in system</div>
+                </b>
+                <div class="text-dark" id="AllRoom" style="font-size: 2rem;">Loading...</div>
+                <div style="text-align: right;">
+                    <img src="/public/assets/pswait-removebg-dash.png" alt="" style="width: 20rem; height: 10rem;">
+                </div>
+            </div>
+            <div class="card" style="border-radius: 2rem; background-color: #86BBD8;">
+                <b>
+                    <div class="dashboard-header text-dark">Number of approved request</div>
+                </b>
+                <div class="text-dark" id="ApprovedRequest" style="font-size: 2rem;">Loading...</div>
+                <div style="text-align: right;">
+                    <img src="/public/assets/check.png" alt="" style="width: 10rem; height: 10rem;">
+                </div>
+            </div>
+            <div class="card" style="border-radius: 2rem; background-color: #CFDEE7;">
+                <b>
+                    <div class="dashboard-header text-dark">Number of pending requests</div>
+                </b>
+                <div class="text-dark" id="pendingRequests" style="font-size: 2rem;">Loading...</div>
+                <div style="text-align: right;">
+                    <img src="/public/assets/narikasai-removebg-preview.png" alt="" style="width: 10rem; height: 10rem;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-light text-center text-lg-start">
+        <!-- Copyright -->
+        <div class="text-center p-3 text-white" style="background-color: #02083b;">
+            © 2023 Copyright:
+            <a class="text-white" href="https://www.google.com/">sunshine.com</a>
+        </div>
+        <!-- Copyright -->
+    </footer>
+    <script>
+
+        // CHART
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('/staff/chart1')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('enable').textContent = data.Enable + " Rooms";
+                    document.getElementById('disable').textContent = data.Disable + " Rooms";
+                   
+
+                    const Enable = data.Enable;
+                    const Disable = data.Disable;
+                  
+
+                    // ECharts option
+                    var option = {
+                        title: {
+                            text: 'Meeting Room Booking',
+                            subtext: 'Status Room',
+                            left: 'center'
+                        },
+                        tooltip: {
+                            trigger: 'item'
+                        },
+                        legend: {
+                            orient: 'vertical',
+                            left: 'right'
+                        },
+                        series: [
+                            {
+                                name: 'Access From',
+                                type: 'pie',
+                                radius: '50%',
+                                data: [
+                                { value: Enable, name: 'Enable', itemStyle: { color: '#6495ED' } },
+                                    { value: Disable, name: 'Disable', itemStyle: { color:  '#BEBEBE' } },
+                                   
+                                ],
+                                emphasis: {
+                                    itemStyle: {
+                                        shadowBlur: 10,
+                                        shadowOffsetX: 0,
+                                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                    }
+                                }
+                            }
+                        ]
+                    };
+
+                    // Use echarts to render the chart
+                    var echartsChart = echarts.init(document.getElementById('Chart1'));
+                    echartsChart.setOption(option);
+                })
+                .catch(error => console.error('Error:', error));
+        });
+
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('/staff/chart2')
+                .then(response => response.json())
+                .then(data => {
+                  
+                    document.getElementById('FullReserved').textContent = data.Reserved + " Rooms";
+                    document.getElementById('pendingRequests').textContent = data.Pending + " Rooms";
+                    document.getElementById('ApprovedRequest').textContent = data.Approve + " Rooms";
+
+                    
+                    const fullReserved = data.Reserved;
+                    const PendingRequests = data.Pending;
+                    const approveRequest = data.Approve;
+
+                    // ECharts option
+                    var option = {
+                        title: {
+                            text: 'Meeting Room Booking',
+                            subtext: 'Request Status',
+                            left: 'center'
+                        },
+                        tooltip: {
+                            trigger: 'item'
+                        },
+                        legend: {
+                            orient: 'vertical',
+                            left: 'left'
+                        },
+                        series: [
+        {
+            name: 'Access From',
+            type: 'pie',
+            radius: '50%',
+            data: [
+                { value: fullReserved, name: 'Full Reserved', itemStyle: { color: '#FF5733' } },
+                { value: PendingRequests, name: 'Pending', itemStyle: { color: '#FFD200' } },
+                { value: approveRequest, name: 'Approved', itemStyle: { color: '#3CB371' } }
+            ],
+            emphasis: {
+                itemStyle: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                    }
+                                }
+                            }
+                        ]
+                    };
+
+                    // Use echarts to render the chart
+                    var echartsChart = echarts.init(document.getElementById('Chart2'));
+                    echartsChart.setOption(option);
+                })
+                .catch(error => console.error('Error:', error));
+        });
+
+        //fatch FullReserved room
+        fetch("/staff/countFullReserved")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("FullReserved").innerHTML = data;
+            })
+            .catch(error => console.error("Error fetching data:", error));
+
+        //fatch enable room
+        fetch("/staff/countEnableRoom")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("enable").innerHTML = data;
+            })
+            .catch(error => console.error("Error fetching data:", error));
+
+        //fatch disable room
+        fetch("/staff/countDisableRoom")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("disable").innerHTML = data;
+            })
+            .catch(error => console.error("Error fetching data:", error));
+
+        //fatch All room in system
+        fetch("/staff/countAllroom")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("AllRoom").innerHTML = data;
+            })
+            .catch(error => console.error("Error fetching data:", error));
+
+        //fatch Approved Request 
+        fetch("/staff/countApprovedRequest")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("ApprovedRequest").innerHTML = data;
+            })
+            .catch(error => console.error("Error fetching data:", error));
+
+        //fatch Pending Request 
+        fetch("/staff/countPending")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("pendingRequests").innerHTML = data;
+            })
+            .catch(error => console.error("Error fetching data:", error));
+        // document.getElementById('Logout').addEventListener('click', function () {
+        //     window.location.href = '/';
+        // });
+        document.getElementById('room_br_st').addEventListener('click', function () {
+            window.location.href = '/admin/room';
+        });
+        document.getElementById('request_room').addEventListener('click', function () {
+            window.location.href = '/admin/booking_request';
+        });
+        document.getElementById('room_booking_history').addEventListener('click', function () {
+            window.location.href = '/admin/room_history';
+        });
+
+    </script>
+</body>
+
+</html>

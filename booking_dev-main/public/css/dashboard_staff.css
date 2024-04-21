@@ -1,0 +1,191 @@
+.dashboard-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 40px;
+}
+
+
+.container-flex {
+display: flex;
+}
+
+#container-row3 {
+flex-direction: row;
+justify-content: space-around;
+}
+
+.card {
+  width: 44%;
+  padding: 19px;
+  margin-bottom: 50px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* border-radius: 10px; */
+  background: #ffffff;
+  border-radius: 2rem;
+  box-shadow: 0px 0px 0px grey;
+-webkit-transition:  box-shadow .3s ease-out;
+   box-shadow: .8px .9px 3px grey;
+}
+
+.dashboard-header {
+  text-align: left;
+  font-size: 24px;
+  margin: 20px 0;
+}
+
+
+
+
+.card:hover{ 
+  box-shadow: 1px 8px 20px grey;
+ -webkit-transition:  box-shadow .3s ease-in;
+}
+
+.custom-button1 {
+  font-size: medium;
+  height: 4rem;
+  background-color: black;
+}
+.custom-button2 {
+  font-size: medium;
+  height: 4rem;
+  background-color: black;
+}
+.custom-button3 {
+  font-size: medium;
+  height: 4rem;
+  background-color: black;
+}
+
+.custom-button1:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Add a box-shadow on hover */
+  animation: pulse 0.5s infinite alternate; /* Add a pulse effect on hover */
+  background-color: rgb(80, 9, 173);
+}
+.custom-button2:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Add a box-shadow on hover */
+  animation: pulse 0.5s infinite alternate; /* Add a pulse effect on hover */
+  background-color: rgb(4, 4, 148);
+}
+.custom-button3:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Add a box-shadow on hover */
+  animation: pulse 0.5s infinite alternate; /* Add a pulse effect on hover */
+  background-color: rgb(44, 85, 196);
+}
+
+@keyframes pulse {
+  to {
+    transform: scale(1.3); /* Scale the button on the pulse effect */
+  }
+}
+
+.nav-button {
+  transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+#room_br_st:hover {
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Add a box-shadow on hover */
+animation: pulse 0.5s infinite alternate; /* Add a pulse effect on hover */
+background-color: rgb(80, 9, 173);
+}
+#manage_room:hover {
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Add a box-shadow on hover */
+animation: pulse 0.5s infinite alternate; /* Add a pulse effect on hover */
+background-color: rgb(4, 4, 148);
+}
+#room_booking_history:hover {
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Add a box-shadow on hover */
+animation: pulse 0.5s infinite alternate; /* Add a pulse effect on hover */
+background-color: rgb(44, 85, 196);
+}
+
+#room_br_st {
+font-size: medium;
+height: 4rem;
+background-color: black;
+}
+#manage_room {
+font-size: medium;
+height: 4rem;
+background-color: black;
+}
+#room_booking_history {
+font-size: medium;
+height: 4rem;
+background-color: black;
+}
+
+.nav-link {
+--s: 0.1em;   
+--c: #2c4bff; 
+
+color: rgba(255, 249, 249, 0.885)d900;
+padding-bottom: var(--s);
+background: 
+  linear-gradient(90deg,var(--c) 50%,#000 0) calc(100% - var(--_p,0%))/200% 100%,
+  linear-gradient(var(--c) 0 0) 0% 100%/var(--_p,0%) var(--s) no-repeat;
+-webkit-background-clip: text,padding-box;
+        background-clip: text,padding-box;
+transition: 0.5s;
+}
+.nav-link:hover {--_p: 100%}
+
+
+
+.nav-link {
+font-family: system-ui, sans-serif;
+font-size: 5rem;
+cursor: pointer;
+}
+
+
+
+
+
+
+/* eff */
+.overlay {
+position: absolute;
+bottom: 0;
+left: 0;
+width: 100%;
+height: 30vh;
+z-index: 100;
+}
+
+.text {
+font-family: "Yanone Kaffeesatz";
+font-size: 100px;
+display: flex;
+position: absolute;
+/* bottom: 20vh; */
+left: 50%;
+transform: translateX(-50%);
+user-select: none;
+
+.wrapper {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 20px;
+  .letter {
+    transition: ease-out 1s;
+    transform: translateY(40%);
+  }
+  .shadow {
+    transform: scale(1, -1);
+    color: #999;
+    transition: ease-in 5s, ease-out 5s;
+  }
+  &:hover {
+    .letter {
+      transform: translateY(-200%);
+    }
+    .shadow {
+      opacity: 0;
+      transform: translateY(200%);
+    }
+  }
+}
+}
+

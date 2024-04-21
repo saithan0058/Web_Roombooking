@@ -1,0 +1,111 @@
+#Head{
+    background-color: #2E287B;
+    color: white;
+    text-align: center;
+}
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 80%;
+}
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    text-align: center;
+}
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+tr:nth-child(odd) {
+    background-color: #FFFFFF;
+}
+.btnN {
+    background-color: #FBD4CC;
+    border: none;
+    border-radius: 10px 10px 10px 10px;
+    color: #F24E1E;
+    padding: 12px 16px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.btnN:hover {
+    background-color: #F37E7E;
+}
+.btnY {
+    background-color: #C7F5CC;
+    border: none;
+    border-radius: 10px 10px 10px 10px;
+    color: #0FA958;
+    padding: 12px 16px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.btnY:hover {
+    background-color: #a1ce8c;
+}
+.btnCancel {
+    background-color: #babbbc;
+    border: none;
+    border-radius: 7px 7px 7px 7px;
+    color: #000000;
+    padding: 10px 14px;
+    font-size: 14px;
+    cursor: pointer;
+}
+.btnCancel:hover {
+    background-color: #959597;
+}
+.ven1 {
+    height: 2.5rem;
+}
+.ven2 {
+    height: 1rem;
+}
+h1 {
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.approve {
+    color: green;
+  }
+
+  .reject {
+    color: red;
+  }
+  .nav-button {
+    transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.nav-button:hover {
+    box-shadow: 0 0.8rem 2rem rgba(0, 0, 0, 0.3);
+    transform: translate3d(0, -4px, 0);
+    background-color: rgb(44, 44, 196);
+}
+.nav-link {
+    --s: 0.1em;
+    --c: #2c4bff; 
+  
+    color: rgba(255, 249, 249, 0.885)d900;
+    padding-bottom: var(--s);
+    background: 
+      linear-gradient(90deg,var(--c) 50%,#000 0) calc(100% - var(--_p,0%))/200% 100%,
+      linear-gradient(var(--c) 0 0) 0% 100%/var(--_p,0%) var(--s) no-repeat;
+    -webkit-background-clip: text,padding-box;
+            background-clip: text,padding-box;
+    transition: 0.5s;
+  }
+  .nav-link:hover {--_p: 100%}
+  
+  
+  
+  .nav-link {
+    font-family: system-ui, sans-serif;
+    font-size: 5rem;
+    cursor: pointer;
+  }
+  
+  
+  .nav-button {
+      margin-right: 40px;
+  }
+

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <link rel="stylesheet" type="text/css" href="/public/css/bootstrap.min.css">
+    <script src="/public/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/public/css/landing.css">
+    <style>
+        #popup {
+            display: none;
+            position: absolute;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        #question-mark {
+            position: relative;
+            /* Ensure the container has a relative position */
+        }
+    </style>
+</head>
+
+<body>
+    <!--navbar-->
+    <nav class="navbar navbar-expand-sm navbar-dark p-4" style="background-color: #02083b;">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="#" style="font-size: 20px;">Booking group</a>
+            </li>
+        </ul>
+        <div class="navbar-nav ms-auto">
+            <button id="regisButton"
+                class="px-4 nav-button btn btn-dark border text-white border border-primary rounded-pill" style="background-color: rgb(18, 6, 97)">Sign
+                up</button>
+        </div>
+        <div class="navbar-nav">
+            <button id="loginButton"
+                class="px-4 nav-button btn btn-dark border text-white border border-primary rounded-pill">Login</button>
+        </div>
+        <!-- Help Icon -->
+
+        <div id="question-mark-container">
+            <img src="/public/assets/question-mark-12-34.png" alt="Question Mark" id="question-mark">
+            <div id="popup">
+                <h3 class="help">How to Book</h3>
+                <ol>
+                    <li class="help">Login</li>
+                    <li class="help">Select the room and time period you want to reserve.</li>
+                    <li class="help">Fill in booking information</li>
+                    <li class="help">Send request</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- <div class="icon" id="icon">
+            <img src="/public/assets/question-mark-12-34.png" alt="The icon" title="kuymk">
+            <div class="popup" id="popup"> -->
+        <!-- ข้อความที่คุณต้องการให้แสดงใน popup -->
+        <!-- <p>มุกเก่งสุดๆ</p>
+            </div>
+        </div> -->
+    </nav>
+
+
+    <!--img background-->
+    <!-- Content -->
+    <div class="content-container text-center" style="margin-top: 8rem;">
+        <div class="left-content">
+            <b>
+                <h1 style="font-size: 50px ;">Meeting Room</h1>
+            </b>
+            <b><span style="font-size: 50px; color: rgb(31, 4, 166);">Booking</span></b><br>
+            <p style="color: rgb(31, 4, 166); display: inline; font-size: 25px;">Hello to us from the Booking group,</p>
+            <p style="display: inline; font-size: 25px;">the program is for meeting rooms in Mae Fah Luang with a
+                flexible and
+                easy-to-understand system. By using the developed system to create maximum benefits.</p><br>
+            <button id="ButtonRoom"
+                class="custom-button2 mt-5 btn btn-dark border text-white border border-primary rounded-pill mx-2 btn-lg"
+                style="font-size: medium; height: 4rem; background-color: rgb(18, 6, 97);">Room Borrowing List</button>
+            <button id="ButtonCheck"
+                class="custom-button1 mt-5 btn btn-dark border text-white border border-primary rounded-pill mx-2 btn-lg"
+                style="font-size: medium; height: 4rem;">Check Status</button>
+
+        </div>
+        <div class="right-content">
+            <img src="/public/assets/meeting room 1.png" alt="Responsive Image" class="responsive-image">
+        </div>
+    </div>
+
+    <!--content 2-->
+    <div class="content-container" style="margin-top: 4rem; background-color: #000320;">
+        <div class="left-content text-center">
+            <img src="/public/assets/student-library-books-book 1.png" alt="Responsive Image" class="responsive-image">
+        </div>
+        <div class="right-content">
+            <b>
+                <h1 class="text-white" style="font-size: 50px ;">How To Booking</h1>
+            </b><br>
+            <!-- <b><span style="font-size: 50px; color: rgb(31, 4, 166);">Booking</span></b><br> -->
+            <b>
+                <h2 class="text-white mt-3">01 For User Using</h2>
+            </b>
+            <p class="text-white" style="font-size: 20px;">Eu scelerisque amet amet malesuada id ultrices morbi. Vitae
+                purus mauris hac nisi habitasse donec. Vitae integer massa in blandit.</p>
+            <b>
+                <h2 class="text-white mt-5">01 For User Using</h2>
+            </b>
+            <p class="text-white" style="font-size: 20px;">Eu scelerisque amet amet malesuada id ultrices morbi. Vitae
+                purus mauris hac nisi habitasse donec. Vitae integer massa in blandit.</p>
+            <b>
+                <h2 class="text-white mt-5">01 For User Using</h2>
+            </b>
+            <p class="text-white" style="font-size: 20px;">Eu scelerisque amet amet malesuada id ultrices morbi. Vitae
+                purus mauris hac nisi habitasse donec. Vitae integer massa in blandit.</p>
+        </div>
+    </div>
+    <footer class="bg-light text-center text-lg-start">
+        <!-- Copyright -->
+        <div class="text-center p-3 text-white" style="background-color: #02083b;">
+            © 2023 Copyright:
+            <a class="text-white" href="https://www.google.com/">sunshine.com</a>
+        </div>
+        <!-- Copyright -->
+    </footer>
+
+    <script>
+        document.getElementById('loginButton').addEventListener('click', function () {
+            window.location.href = '/login';
+        });
+        document.getElementById('regisButton').addEventListener('click', function () {
+            window.location.href = '/user/register';
+        });
+        document.getElementById('ButtonRoom').addEventListener('click', function () {
+            window.location.href = '/login';
+        });
+        document.getElementById('ButtonCheck').addEventListener('click', function () {
+            window.location.href = '/login';
+        });
+        // document.addEventListener('DOMContentLoaded', function () {
+        //     var icon = document.getElementById('icon');
+        //     var popup = document.getElementById('popup');
+
+        //     icon.addEventListener('mouseover', function () {
+        //         popup.style.display = 'block';
+        //     });
+
+        //     icon.addEventListener('mouseout', function () {
+        //         popup.style.display = 'none';
+        //     });
+        // });
+        var questionMarkContainer = document.getElementById('question-mark-container');
+        var popup = document.getElementById('popup');
+
+        questionMarkContainer.addEventListener('mouseover', function () {
+            showPopup();
+        });
+
+        questionMarkContainer.addEventListener('mouseout', function () {
+            hidePopup();
+        });
+
+        function showPopup() {
+            var rect = questionMarkContainer.getBoundingClientRect();
+            popup.style.display = 'block';
+            popup.style.top = rect.bottom + 20 + 'px';
+            popup.style.left = rect.left - 240 + 'px';
+        }
+
+        function hidePopup() {
+            popup.style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>

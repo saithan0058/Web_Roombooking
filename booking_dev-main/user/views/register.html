@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Page</title>
+    <link rel="stylesheet" href="/public/css/login.css">
+    <link rel="stylesheet" href="/public/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+
+    <body>
+        <div class="login-container">
+            <div class="split left">
+            </div>
+            <div class="split right">
+                <form id="formRegister">
+                    <h1 class="mb-4">Register</h1>
+                    <div class="input-container form-floating">
+                        <input type="email" id="username" name="txtEmail" class="form-control"
+                            placeholder="Email Address" required>
+                        <label for="email">Email Address</label>
+                    </div>
+                    <div class="input-container form-floating">
+                        <input type="password" id="password" name="txtPassword" class="form-control mt-3"
+                            placeholder="Password" required minlength="8" maxlength="16">
+                        <label for="password">Password</label>
+                    </div>
+                    <div class="input-container form-floating">
+                        <input type="text" id="fname" name="fName" class="form-control mt-3"
+                            placeholder="First name - Surname" required pattern="[A-Za-z ]*" title="Please enter only English letters">
+                        <label for="fname">First name - Surname</label>
+                    </div>
+                    <div class="input-container form-floating">
+                        <input type="tel" id="phone" name="txtPhone" class="form-control mt-3"
+                            placeholder="Phone number" required pattern="\d{10,}"
+                            title="Please enter at least 10 digits">
+                        <label for="phone">Phone number</label>
+                    </div>
+                    <div class="input-container form-floating">
+                        <input type="number" id="stuID" name="stuID" class="form-control mt-3" placeholder="Password"
+                        required pattern="\d{10,}"
+                        title="Please enter at least 10 digits">
+                        <label for="stuID">Student ID</label>
+                    </div>
+                    <button type="submit" class="btn btn-dark mt-2">Register</button>
+                </form>
+            </div>
+        </div>
+    </body>
+    <script>
+        const formRegister = document.querySelector('#formRegister');
+        //When click submit
+        formRegister.onsubmit = function (e) {
+            e.preventDefault();
+            const email = formRegister['txtEmail'].value;
+            const password = formRegister['txtPassword'].value;
+            const fname = formRegister['fName'].value;
+            const phone = formRegister['txtPhone'].value;
+            const stuID = formRegister['stuID'].value;
+
+            const options = {
+                method: 'POST',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    "email": email,
+                    "password": password,
+                    "fName_sName": fname,
+                    "phone_number": phone,
+                    "student_id": stuID,
+                }),
+            }
+            // console.log(options.body);
+            fetch("/user/register", options)
+                .then(function (response) {
+                    console.log(response);
+                    if (response.ok) {
+                        return response.text();
+                    }
+                    throw Error("Email already exists")
+                }).then(function (data) {
+                    location.replace(data);
+                }).catch(function (err) {
+                    Swal.fire({
+                        "icon": "error",
+                        "title": err.message
+                    })
+
+                });
+        }
+    </script>
+</body>
+
+</html>

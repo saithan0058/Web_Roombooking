@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/public/css/bootstrap.min.css">
+    <script src="/public/js/bootstrap.bundle.min.js"></script>
+    <title>Manage Room</title>
+    <link rel="stylesheet" href="/public/css/manage_room.css">
+</head>
+
+<body id="back">
+    <!--navbar-->
+    <nav class="navbar navbar-expand-sm navbar-dark p-4" style="background-color: #02083b;">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="/staff/landing" style="font-size: 20px;">Booking group staff system</a>
+            </li>
+        </ul>
+        <div class="navbar-nav ms-auto">
+            <a href="/logout"
+                class="px-4 nav-button btn btn-dark border text-white border border-primary rounded-pill">Logout</a>
+        </div>
+    </nav>
+
+    <div id="manageBG" class="container bg-white p-5 my-5">
+        <div>
+            <h1 class="text-center">Manage Room</h1>
+        </div>
+
+        <!-- Room List -->
+        <div id="roomList" class="container">
+            <!-- Data will be dynamically inserted here -->
+        </div>
+
+        <div class="text-center">
+            <a href="#" id="prevPageLink">&lt;</a>
+            <a href="#" id="nextPageLink">&gt;</a>
+        </div>
+
+        <button class="btn px-5 text-success toggle" id="_add">Add Room</button>
+
+        <script>
+            // Fetch room list data when the page loads
+            const pagination = {
+                currentPage: 1,
+                perPage: 10
+            };
+            getRoomList(pagination.currentPage, pagination.perPage);
+
+            //---------------GET Room List-----------------
+            async function getRoomList(page, perPage) {
+                try {
+                    const response = await fetch(`/staff/list?page=${page}&perPage=${perPage}`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        console.log("Received Room List = ", data);
+                        const roomListContainer = document.getElementById("roomList");
+
+                        // Clear existing room list
+                        roomListContainer.innerHTML = "";
+
+                        // Populate room list
+                        data.forEach((room) => {
+                            const roomDiv = document.createElement("div");
+                            roomDiv.className = "row pt-3 ps-3";
+                            //Button color
+                            let buttonLabel, buttonClass,buttonClass2;
+                            if (room.room_status === 'Enable') {
+                                buttonLabel = 'Disable';
+                                buttonClass = 'green';
+                                buttonClass2 = 'red';
+                            } else {
+                                buttonLabel = 'Enable';
+                                buttonClass = 'red';
+                                buttonClass2 ='green';
+                            }
+
+                            const status_data = { "id": room.room_id, "status": buttonLabel };
+                            console.log(status_data);
+                            roomDiv.innerHTML = `
+        <div class="container list col-8 p-1">
+            <div class="row">
+                <div id="status" class="col-1 my-4 ms-5" style="background-color:${buttonClass};"></div>
+                <h3 class="col px-5 pt-3 pb-2">${room.room_name} - ${room.room_number}</h3>
+            </div>
+        </div>
+        <div class="col mt-3">
+            <button class="btn px-5" onclick="goToEditRoom(${room.room_id}, '${room.room_name}', ${room.room_number}, ${room.people}, '${room.facilities}')">Edit</button>
+            <button id="${room.room_id}" class="btn px-5  toggle" onclick=toggleRoomStatus(${JSON.stringify(status_data)}) style="border-color:${buttonClass2};color: ${buttonClass2} ; ">${buttonLabel}</button>
+        </div>`;
+                            roomListContainer.appendChild(roomDiv);
+                        });
+                        // Update pagination links
+                        updatePaginationLinks(page);
+                    } else {
+                        throw Error('Connection ERROR');
+                    }
+                } catch (error) {
+                    alert(error.message);
+                }
+            }
+
+            // เพิ่มฟังก์ชั่นใหม่
+            async function toggleRoomStatus(status_data) {
+                // alert(status_data.status)
+
+                try {
+                    const response = await fetch(`/staff/toggle-status/${status_data.id}/${status_data.status}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    if (response.ok) {
+                        getRoomList(pagination.currentPage, pagination.perPage);
+                        const data = await response.text()
+                        console.log(data)
+                    }
+                    else {
+                        const data = await response.text();
+                        throw Error(data)
+                    }
+                } catch (er) {
+                    console.error(er.message)
+
+                }
+            }
+            // Update pagination links based on the current page
+            function updatePaginationLinks(currentPage) {
+                const prevPageLink = document.getElementById("prevPageLink");
+                const nextPageLink = document.getElementById("nextPageLink");
+
+                prevPageLink.href = `?page=${currentPage - 1}`;
+                nextPageLink.href = `?page=${currentPage + 1}`;
+
+                // Add this line to prevent the default link behavior
+                nextPageLink.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    // Call the function to load the next page
+                    getRoomList(currentPage + 1, pagination.perPage);
+                });
+            }
+
+            function goToEditRoom(room_id, room_name, room_number, people, facilities) {
+                const url = `/staff/manage/edit?room_id=${room_id}&room_name=${room_name}&room_number=${room_number}&people=${people}&facilities=${facilities}`;
+                window.location.assign(url);
+            }
+
+            document.getElementById('_add').addEventListener('click', function () {
+                window.location.href = '/staff/manage/add';
+            });
+
+        </script>
+    </div>
+</body>
+
+</html>

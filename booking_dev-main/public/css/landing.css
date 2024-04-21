@@ -1,0 +1,90 @@
+.nav-button {
+    margin-right: 40px;
+}
+
+body{
+    background-color: #fff;
+}
+
+.content-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+.left-content {
+    flex: 1;
+    padding: 20px;
+}
+
+.right-content {
+    flex: 1;
+}
+
+.responsive-image {
+    max-width: 100%;
+    height: auto;
+}
+
+.custom-button {
+    font-size: medium;
+    height: 4rem;
+    background-color: black;
+  }
+
+  #ButtonCheck:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Add a box-shadow on hover */
+    animation: pulse 0.5s infinite alternate; /* Add a pulse effect on hover */
+    background-color: rgb(82, 31, 163);
+  }
+  #ButtonRoom:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Add a box-shadow on hover */
+    animation: pulse 0.5s infinite alternate; /* Add a pulse effect on hover */
+    background-color: rgb(3, 3, 202);
+  }
+
+  @keyframes pulse {
+    to {
+      transform: scale(1.3); /* Scale the button on the pulse effect */
+    }
+  }
+
+  .nav-button {
+    transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.nav-button:hover {
+    box-shadow: 0 0.8rem 2rem rgba(0, 0, 0, 0.3);
+    transform: translate3d(0, -4px, 0);
+    background-color: rgb(44, 44, 196);
+}
+
+.help {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 80%;
+}
+
+.nav-link {
+    --s: 0.1em;   
+    --c: #2c4bff; 
+    
+    color: rgba(255, 249, 249, 0.885)d900;
+    padding-bottom: var(--s);
+    background: 
+      linear-gradient(90deg,var(--c) 50%,#000 0) calc(100% - var(--_p,0%))/200% 100%,
+      linear-gradient(var(--c) 0 0) 0% 100%/var(--_p,0%) var(--s) no-repeat;
+    -webkit-background-clip: text,padding-box;
+            background-clip: text,padding-box;
+    transition: 0.5s;
+  }
+  .nav-link:hover {--_p: 100%}
+  
+  
+  
+  .nav-link {
+    font-family: system-ui, sans-serif;
+    font-size: 5rem;
+    cursor: pointer;
+  }
